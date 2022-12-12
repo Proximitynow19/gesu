@@ -16,7 +16,13 @@ const { Shoukaku, Connectors } = require("shoukaku");
 const Filter = require("bad-words");
 
 const app = express();
-const client = new Client({ intents: [GatewayIntentBits.GuildVoiceStates] });
+const client = new Client({
+  presence: {
+    status: "idle",
+    activities: [{ name: "gesugao.net", type: ActivityType.Listening }],
+  },
+  intents: [GatewayIntentBits.GuildVoiceStates],
+});
 const shoukaku = new Shoukaku(new Connectors.DiscordJS(client), lavalink_nodes);
 const filter = new Filter({ placeHolder: "◼", replaceRegex: /[aeiou]/g });
 
@@ -40,8 +46,6 @@ app.get("/api/now_playing/art", (_, res) => {
 });
 
 client.once("ready", async () => {
-  client.user.setPresence({ status: "idle" });
-
   channel = await client.channels.fetch(stage_channel);
 
   console.log("Client Online");
