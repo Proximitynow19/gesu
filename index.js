@@ -24,6 +24,7 @@ const EventSource = require("eventsource");
 const axios = require("axios");
 const moment = require("moment");
 const {
+  dev_mode,
   bot_token,
   api_base,
   mount,
@@ -72,6 +73,8 @@ client.once("ready", async () => {
 });
 
 shoukaku.on("ready", async () => {
+  if (dev_mode) return;
+
   channel = await client.channels.fetch(stage_channel);
   let Guild = await client.guilds.fetch(guild);
 

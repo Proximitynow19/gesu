@@ -1,4 +1,5 @@
 {
+  "dev_mode": false,
   "bot_token": "xxxxxxxxxxxxxxxxxxxxxxx.xxxxxx.xxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "api_base": "https://demo.azuracast.com/api",
   "mount": "https://demo.azuracast.com/listen/azuratest_radio/radio.mp3",
