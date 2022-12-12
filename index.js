@@ -98,9 +98,13 @@ shoukaku.on("ready", async () => {
   });
   Guild.members.me.voice.setSuppressed(false);
   player.playTrack({ track: metadata.track }).setVolume(0.5);
-  player.on("end", () => {
-    player.playTrack({ track: metadata.track }).setVolume(0.5);
-  });
+  player
+    .on("end", () => {
+      player.playTrack({ track: metadata.track });
+    })
+    .on("stuck", () => {
+      player.playTrack({ track: metadata.track });
+    });
 });
 
 shoukaku.on("error", (_, error) => console.error(error));
