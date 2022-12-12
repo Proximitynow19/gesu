@@ -1,13 +1,20 @@
 /*
 
-The main server file. Holds all the important backend functions.
-Copyright (C) 2022 ゲス GESU
+    index.js - The main server file. Holds all the important backend functions.
+    Copyright (C) 2022  ゲス GESU
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along with this program. If not, see <https://www.gnu.org/licenses/>.
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 */
 
@@ -17,6 +24,7 @@ const EventSource = require("eventsource");
 const axios = require("axios");
 const moment = require("moment");
 const {
+  dev_mode,
   bot_token,
   api_base,
   mount,
@@ -65,13 +73,15 @@ client.once("ready", async () => {
 });
 
 shoukaku.on("ready", async () => {
+  if (dev_mode) return;
+
   channel = await client.channels.fetch(stage_channel);
   let Guild = await client.guilds.fetch(guild);
 
   stageInstace =
-    (await Guild.stageInstances.fetch(stage_channel)) ||
+    (await Guild.stageInstances.fetch(stage_channel).catch(() => {})) ||
     (await Guild.stageInstances.create(stage_channel, {
-      topic: filter.clean(np_data.text) || "GESU 24/7",
+      topic: np_data.text ? filter.clean(np_data.text) : "GESU 24/7",
       privacyLevel: 1,
       sendStartNotification: false,
     }));
@@ -88,6 +98,13 @@ shoukaku.on("ready", async () => {
   });
   Guild.members.me.voice.setSuppressed(false);
   player.playTrack({ track: metadata.track }).setVolume(0.5);
+  player
+    .on("end", () => {
+      player.playTrack({ track: metadata.track });
+    })
+    .on("stuck", () => {
+      player.playTrack({ track: metadata.track });
+    });
 });
 
 shoukaku.on("error", (_, error) => console.error(error));
