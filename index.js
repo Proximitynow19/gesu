@@ -1,11 +1,10 @@
-require("dotenv").config();
-
 const express = require("express");
 const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
 const EventSource = require("eventsource");
 const axios = require("axios");
 const moment = require("moment");
 const {
+  bot_token,
   api_base,
   mount,
   station_name,
@@ -76,7 +75,7 @@ shoukaku.on("ready", async () => {
 
 shoukaku.on("error", (_, error) => console.error(error));
 
-client.login(process.env.DISCORD_TOKEN);
+client.login(bot_token);
 
 const sseUri = `${api_base}/live/nowplaying/sse?cf_connect={"subs":{"station:${station_name}":{}}}`;
 
