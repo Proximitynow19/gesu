@@ -78,7 +78,7 @@ shoukaku.on("error", (_, error) => console.error(error));
 
 client.login(process.env.DISCORD_TOKEN);
 
-const sseUri = `${api_base}api/live/nowplaying/sse?cf_connect={"subs":{"station:${station_name}":{}}}`;
+const sseUri = `${api_base}/live/nowplaying/sse?cf_connect={"subs":{"station:${station_name}":{}}}`;
 
 let sse = new EventSource(sseUri);
 
