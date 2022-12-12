@@ -79,7 +79,7 @@ shoukaku.on("ready", async () => {
   let Guild = await client.guilds.fetch(guild);
 
   stageInstace =
-    (await Guild.stageInstances.fetch(stage_channel).catch(()=>{})) ||
+    (await Guild.stageInstances.fetch(stage_channel).catch(() => {})) ||
     (await Guild.stageInstances.create(stage_channel, {
       topic: np_data.text ? filter.clean(np_data.text) : "GESU 24/7",
       privacyLevel: 1,
@@ -98,6 +98,9 @@ shoukaku.on("ready", async () => {
   });
   Guild.members.me.voice.setSuppressed(false);
   player.playTrack({ track: metadata.track }).setVolume(0.5);
+  player.on("end", () => {
+    player.playTrack({ track: metadata.track }).setVolume(0.5);
+  });
 });
 
 shoukaku.on("error", (_, error) => console.error(error));
