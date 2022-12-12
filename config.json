@@ -1,0 +1,15 @@
+{
+  "api_base": "https://demo.azuracast.com/api",
+  "mount": "https://demo.azuracast.com/listen/azuratest_radio/radio.mp3",
+  "station_name": "azuratest_radio",
+  "station_id": 1,
+  "guild": "1051613274162090024",
+  "stage_channel": "1051630507051462766",
+  "lavalink_nodes": [
+    {
+      name: 'Localhost',
+      url: 'localhost:6969',
+      auth: 'marin_kitagawa'
+    }
+  ]
+}
