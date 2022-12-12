@@ -45,7 +45,7 @@ const client = new Client({
   intents: [GatewayIntentBits.GuildVoiceStates],
 });
 const shoukaku = new Shoukaku(new Connectors.DiscordJS(client), lavalink_nodes);
-const filter = new Filter({ placeHolder: "◼", replaceRegex: /[aeiou]/g });
+const filter = new Filter({ placeHolder: "◼", replaceRegex: /[aeiou]/gi });
 
 let np_data = {
   title: "",
