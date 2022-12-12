@@ -7,9 +7,9 @@
   "stage_channel": "1051630507051462766",
   "lavalink_nodes": [
     {
-      name: 'Localhost',
-      url: 'localhost:6969',
-      auth: 'marin_kitagawa'
+      "name": "Localhost",
+      "url": "localhost:6969",
+      "auth": "marin_kitagawa"
     }
   ]
 }
