@@ -78,7 +78,7 @@ shoukaku.on("ready", async () => {
   stageInstace =
     (await Guild.stageInstances.fetch(stage_channel).catch(()=>{})) ||
     (await Guild.stageInstances.create(stage_channel, {
-      topic: filter.clean(np_data.text) || "GESU 24/7",
+      topic: np_data.text ? filter.clean(np_data.text) : "GESU 24/7",
       privacyLevel: 1,
       sendStartNotification: false,
     }));
