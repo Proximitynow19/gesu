@@ -18,6 +18,7 @@
   "homepage": "https://github.com/Proximitynow19/gesu#readme",
   "workspaces": [
     "server",
-    "ui"
+    "ui",
+    "shortlink"
   ]
 }
