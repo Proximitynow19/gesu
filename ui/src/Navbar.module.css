@@ -1,2 +1,27 @@
-.Nav {
+@import url("https://fonts.googleapis.com/css2?family=Road+Rage&display=swap");
+
+/* .Nav {
+} */
+
+.NavPages {
+  font-size: 1.67em;
+}
+
+.NavPage {
+  font-family: "Road Rage", cursive;
+  color: #11153d;
+  text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white,
+    1px 1px 0 white;
+  text-decoration: none;
+  margin-left: 2.6em;
+}
+
+.NavPage:first-child {
+  margin: 0;
+}
+
+.NavPage[data-highlight="true"],
+.NavPage:hover {
+  color: white;
+  text-shadow: none;
 }
