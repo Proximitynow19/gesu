@@ -23,7 +23,12 @@ const app = express();
 const http = require("http");
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "https://gesugao.net",
+    methods: ["GET", "POST"],
+  },
+});
 const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
 const EventSource = require("eventsource");
 const axios = require("axios");
