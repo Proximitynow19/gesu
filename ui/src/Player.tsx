@@ -52,6 +52,33 @@ createRoot(() => {
       await audio.play().catch(() => {
         setPlaying(false);
       });
+
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: getSong().title,
+          artist: getSong().artist,
+          album: "gesugao.net",
+          artwork: [
+            {
+              src: `https://api.gesugao.net/now_playing/art?${encodeURIComponent(
+                getSong().text
+              )}`,
+              sizes: "500x500",
+              type: "image/jpeg",
+            },
+          ],
+        });
+
+        navigator.mediaSession.setActionHandler("play", () => {
+          setPlaying(true);
+        });
+        navigator.mediaSession.setActionHandler("pause", () => {
+          setPlaying(false);
+        });
+        navigator.mediaSession.setActionHandler("stop", () => {
+          setPlaying(false);
+        });
+      }
     } else {
       if (!audio) return;
       audio.pause();
