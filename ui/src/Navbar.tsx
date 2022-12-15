@@ -1,5 +1,7 @@
 import type { Component } from "solid-js";
 
+import { A } from "@solidjs/router";
+
 import styles from "./Navbar.module.css";
 
 const pages = {
@@ -13,17 +15,19 @@ const Navbar: Component = () => {
     <nav class={styles.Nav}>
       <div class={styles.NavPages}>
         {Object.entries(pages).map(([k, v]) => (
-          <a
+          <A
             href={v}
             class={styles.NavPage}
-            data-highlight={window.location.pathname == v}
+            // data-highlight={window.location.pathname == v}
           >
             {k}
-          </a>
+          </A>
         ))}
       </div>
     </nav>
   );
 };
+
+console.log(window.location);
 
 export default Navbar;

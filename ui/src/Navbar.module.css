@@ -9,9 +9,10 @@
 
 .NavPage {
   font-family: "Road Rage", cursive;
-  color: #11153d;
+  color: white;
+  /* color: #11153d;
   text-shadow: -1px -1px 0 white, 1px -1px 0 white, -1px 1px 0 white,
-    1px 1px 0 white;
+    1px 1px 0 white; */
   text-decoration: none;
   margin-left: 2.6em;
 }
@@ -20,8 +21,8 @@
   margin: 0;
 }
 
-.NavPage[data-highlight="true"],
+/* .NavPage[data-highlight="true"],
 .NavPage:hover {
   color: white;
   text-shadow: none;
-}
+} */
