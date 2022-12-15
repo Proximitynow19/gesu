@@ -45,7 +45,7 @@ createRoot(() => {
             src: `https://api.gesugao.net/now_playing/art?${encodeURIComponent(
               data.text
             )}`,
-            sizes: "500x500",
+            sizes: "800x800",
             type: "image/jpeg",
           },
         ],
