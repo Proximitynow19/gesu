@@ -57,11 +57,11 @@ let np_data = {
 let art = Buffer.from([], "binary");
 let stageInstace;
 
-app.get("/api/now_playing", (_, res) => {
+app.get("/now_playing", (_, res) => {
   res.json(np_data);
 });
 
-app.get("/api/now_playing/art", (_, res) => {
+app.get("/now_playing/art", (_, res) => {
   res.contentType("image/jpeg");
   res.send(art);
 });
