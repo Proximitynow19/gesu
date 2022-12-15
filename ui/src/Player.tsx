@@ -22,6 +22,23 @@ createRoot(() => {
 
   socket.on("now_playing", (data) => {
     setSong(data);
+
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: data.title,
+        artist: data.artist,
+        album: "gesugao.net",
+        artwork: [
+          {
+            src: `https://api.gesugao.net/now_playing/art?${encodeURIComponent(
+              data.text
+            )}`,
+            sizes: "500x500",
+            type: "image/jpeg",
+          },
+        ],
+      });
+    }
   });
 
   let audio: HTMLAudioElement | undefined;
