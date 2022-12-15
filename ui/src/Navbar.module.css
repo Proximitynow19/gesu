@@ -15,6 +15,7 @@
     1px 1px 0 white; */
   text-decoration: none;
   margin-left: 2.6em;
+  line-height: 0;
 }
 
 .NavPage:first-child {

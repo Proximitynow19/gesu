@@ -4,3 +4,14 @@
   height: calc(100vh - min(5vw, 100px) * 2);
   padding: min(5vw, 100px);
 }
+
+.Player {
+  position: fixed;
+  bottom: min(5vw, 100px);
+  width: calc(100vw - min(5vw, 100px) * 2);
+}
+
+.Page {
+  text-align: center;
+  padding: 1.04em;
+}

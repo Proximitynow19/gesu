@@ -19,6 +19,11 @@
 */
 
 const express = require("express");
+const app = express();
+const http = require("http");
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 const { Client, GatewayIntentBits, ActivityType } = require("discord.js");
 const EventSource = require("eventsource");
 const axios = require("axios");
@@ -36,7 +41,6 @@ const {
 const { Shoukaku, Connectors } = require("shoukaku");
 const Filter = require("bad-words");
 
-const app = express();
 const client = new Client({
   presence: {
     status: "idle",
@@ -56,6 +60,10 @@ let np_data = {
 };
 let art = Buffer.from([], "binary");
 let stageInstace;
+
+io.on("connection", (socket) => {
+  socket.emit("now_playing", np_data);
+});
 
 app.get("/now_playing", (_, res) => {
   res.json(np_data);
@@ -140,6 +148,7 @@ sse.onmessage = (e) => {
         })
         .then((response) => {
           art = Buffer.from(response.data, "binary");
+          io.emit("now_playing", np_data);
         });
 
       client.user.setActivity(np.now_playing.song.text, {
@@ -151,9 +160,11 @@ sse.onmessage = (e) => {
           .setTopic(filter.clean(np.now_playing.song.text))
           .catch(() => {});
     }
-  } catch {}
+  } catch {
+    io.emit("now_playing", np_data);
+  }
 };
 
-app.listen(process.env.SERVER_PORT || 8000, () => {
+server.listen(process.env.SERVER_PORT || 8001, () => {
   console.log("Server Online");
 });

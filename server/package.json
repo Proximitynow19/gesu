@@ -18,7 +18,8 @@
     "moment": "^2.29.4",
     "node-fetch": "^3.3.0",
     "nodemon": "^2.0.20",
-    "shoukaku": "^3.2.2"
+    "shoukaku": "^3.2.2",
+    "socket.io": "^4.5.4"
   },
   "repository": {
     "type": "git",

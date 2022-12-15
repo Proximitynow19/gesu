@@ -2,7 +2,7 @@ import type { Component } from "solid-js";
 
 import styles from "./Home.module.css";
 
-const Home: Component = () => {
+const Community: Component = () => {
   return (
     <div>
       <div>We're still building the site.</div>
@@ -20,9 +20,9 @@ const Home: Component = () => {
       <br />
       <br />
       <br />
-      <div>Homepage</div>
+      <div>Community</div>
     </div>
   );
 };
 
-export default Home;
+export default Community;

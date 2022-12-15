@@ -28,6 +28,4 @@ const Navbar: Component = () => {
   );
 };
 
-console.log(window.location);
-
 export default Navbar;
