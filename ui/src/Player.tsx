@@ -59,23 +59,25 @@ createRoot(() => {
 
   createEffect(async () => {
     if (isPlaying()) {
-      if (!audio) audio = new Audio();
-      audio.src = `https://a.gesugao.net/?${Date.now()}`;
-      audio.volume = getVol();
-      audio.load();
-      await audio.play().catch(() => {
-        setPlaying(false);
-      });
-
-      if ("mediaSession" in navigator)
-        navigator.mediaSession.playbackState = "playing";
+      if (!audio || audio.paused) {
+        audio = new Audio();
+        audio.src = `https://a.gesugao.net/?${Date.now()}`;
+        audio.volume = getVol();
+        audio.load();
+        await audio.play().catch(() => {
+          setPlaying(false);
+        });
+      }
     } else {
-      if (!audio) return;
-      audio.pause();
-
-      if ("mediaSession" in navigator)
-        navigator.mediaSession.playbackState = "paused";
+      if (audio && !audio.paused) {
+        audio.pause();
+      }
     }
+
+    if ("mediaSession" in navigator)
+      navigator.mediaSession.playbackState = isPlaying() ? "playing" : "paused";
+
+    if (audio) audio.volume = getVol();
   });
 });
 
@@ -96,7 +98,11 @@ const Player: Component = () => {
       <div onClick={() => setPlaying(!isPlaying())} class={styles.Toggle}>
         {isPlaying() ? <TbPlayerStop /> : <TbPlayerPlay />}
       </div>
-      <div class={styles.Volume}>
+      <div
+        onClick={() => setVol((getVol() + 0.2) % 1)}
+        class={styles.Volume}
+        title={`${Math.round(getVol() * 100)}%`}
+      >
         {getVol() > 0 ? (
           getVol() < 0.5 ? (
             <FiVolume1 />
