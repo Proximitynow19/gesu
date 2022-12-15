@@ -17,6 +17,18 @@ const [getSong, setSong] = createSignal({
   end: moment().toISOString(),
 });
 
+if ("mediaSession" in navigator) {
+  navigator.mediaSession.setActionHandler("play", () => {
+    setPlaying(true);
+  });
+  navigator.mediaSession.setActionHandler("pause", () => {
+    setPlaying(false);
+  });
+  navigator.mediaSession.setActionHandler("stop", () => {
+    setPlaying(false);
+  });
+}
+
 createRoot(() => {
   const socket = io("https://api.gesugao.net/");
 
@@ -38,6 +50,8 @@ createRoot(() => {
           },
         ],
       });
+
+      navigator.mediaSession.playbackState = isPlaying() ? "playing" : "paused";
     }
   });
 
@@ -53,35 +67,14 @@ createRoot(() => {
         setPlaying(false);
       });
 
-      if ("mediaSession" in navigator) {
-        navigator.mediaSession.metadata = new MediaMetadata({
-          title: getSong().title,
-          artist: getSong().artist,
-          album: "gesugao.net",
-          artwork: [
-            {
-              src: `https://api.gesugao.net/now_playing/art?${encodeURIComponent(
-                getSong().text
-              )}`,
-              sizes: "500x500",
-              type: "image/jpeg",
-            },
-          ],
-        });
-
-        navigator.mediaSession.setActionHandler("play", () => {
-          setPlaying(true);
-        });
-        navigator.mediaSession.setActionHandler("pause", () => {
-          setPlaying(false);
-        });
-        navigator.mediaSession.setActionHandler("stop", () => {
-          setPlaying(false);
-        });
-      }
+      if ("mediaSession" in navigator)
+        navigator.mediaSession.playbackState = "playing";
     } else {
       if (!audio) return;
       audio.pause();
+
+      if ("mediaSession" in navigator)
+        navigator.mediaSession.playbackState = "paused";
     }
   });
 });
