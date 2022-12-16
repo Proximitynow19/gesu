@@ -10,16 +10,24 @@ import moment from "moment";
 import { Motion, Presence } from "@motionone/solid";
 import { Rerun } from "@solid-primitives/keyed";
 
-const [isPlaying, setPlaying] = createSignal(false);
-const [getVol, setVol] = createSignal(0.5);
-const [isLoading, setLoading] = createSignal(false);
-export const [getSong, setSong] = createSignal({
+const [isPlaying, setPlaying] = createSignal<boolean>(false);
+const [getVol, setVol] = createSignal<number>(0.5);
+const [isLoading, setLoading] = createSignal<boolean>(false);
+export const [getSong, setSong] = createSignal<NowPlaying>({
   title: "",
   artist: "",
   text: "",
-  start: moment().toISOString(),
-  end: moment().toISOString(),
+  start: moment(),
+  end: moment(),
 });
+
+export type NowPlaying = {
+  title: string;
+  artist: string;
+  text: string;
+  start: moment.Moment;
+  end: moment.Moment;
+};
 
 if ("mediaSession" in navigator) {
   navigator.mediaSession.setActionHandler("play", () => {
