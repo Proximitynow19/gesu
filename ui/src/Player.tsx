@@ -123,32 +123,19 @@ const Player: Component = () => {
         class={styles.Toggle}
         data-loading={isLoading()}
       >
-        {
-          <Presence exitBeforeEnter>
-            <Rerun on={isLoading}>
-              <Motion
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0, transition: { delay: 0.05 } }}
-                transition={{ duration: 0.1 }}
-                exit={{ opacity: 0, y: 5 }}
-              >
-                {isLoading() ? (
-                  <Motion
-                    initial={{ rotate: 0 }}
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 0.5, repeat: Infinity }}
-                  >
-                    <ImSpinner2 />
-                  </Motion>
-                ) : isPlaying() ? (
-                  <TbPlayerStop />
-                ) : (
-                  <TbPlayerPlay />
-                )}
-              </Motion>
-            </Rerun>
-          </Presence>
-        }
+        {isLoading() ? (
+          <Motion
+            initial={{ rotate: 0 }}
+            animate={{ rotate: 360 }}
+            transition={{ duration: 0.5, repeat: Infinity }}
+          >
+            <ImSpinner2 />
+          </Motion>
+        ) : isPlaying() ? (
+          <TbPlayerStop />
+        ) : (
+          <TbPlayerPlay />
+        )}
       </div>
       <div
         onClick={() => setVol((getVol() + 0.2) % 1)}
