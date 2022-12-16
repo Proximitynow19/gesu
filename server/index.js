@@ -170,6 +170,6 @@ sse.onmessage = (e) => {
   }
 };
 
-server.listen(process.env.SERVER_PORT || 8001, () => {
+server.listen(process.env.SERVER_PORT || 8000, () => {
   console.log("Server Online");
 });
