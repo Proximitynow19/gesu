@@ -8,8 +8,8 @@ import styles from "./Home.module.css";
 const Home: Component = () => {
   return (
     <>
-      <div></div>
-      <div>
+      <div class={styles.LyricsContainer}></div>
+      <div class={styles.NowPlayingContainer}>
         <img
           src={`https://api.gesugao.net/now_playing/art?${encodeURIComponent(
             getSong().text
@@ -17,23 +17,25 @@ const Home: Component = () => {
           alt="Now Playing Art"
           class={styles.NowPlayingArt}
         />
-        <Presence exitBeforeEnter>
-          <Rerun on={getSong}>
-            <Motion
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1, transition: { delay: 0.05 } }}
-              transition={{ duration: 0.1 }}
-              exit={{ opacity: 0 }}
-            >
-              <div>
-                <h1>{getSong().title}</h1>
-                <h3>{getSong().artist}</h3>
-              </div>
-            </Motion>
-          </Rerun>
-        </Presence>
+        <div class={styles.NowPlayingMeta}>
+          <Presence exitBeforeEnter>
+            <Rerun on={getSong}>
+              <Motion
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, transition: { delay: 0.05 } }}
+                transition={{ duration: 0.1 }}
+                exit={{ opacity: 0 }}
+              >
+                <div>
+                  <h1>{getSong().title}</h1>
+                  <h3>{getSong().artist}</h3>
+                </div>
+              </Motion>
+            </Rerun>
+          </Presence>
+        </div>
       </div>
-      <div></div>
+      <div class={styles.DiscussContainer}></div>
     </>
   );
 };

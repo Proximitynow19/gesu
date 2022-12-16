@@ -34,7 +34,7 @@ if ("mediaSession" in navigator) {
 }
 
 createRoot(() => {
-  const socket = io("https://api.gesugao.net/");
+  const socket = io(":8001");
 
   socket.on("now_playing", (data) => {
     setSong(data);
