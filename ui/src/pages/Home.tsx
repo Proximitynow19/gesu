@@ -1,27 +1,40 @@
-import type { Component } from "solid-js";
+import { Motion, Presence } from "@motionone/solid";
+import { Rerun } from "@solid-primitives/keyed";
+import { Component } from "solid-js";
+import { getSong } from "../Player";
 
 import styles from "./Home.module.css";
 
 const Home: Component = () => {
   return (
-    <div>
-      <div>We're still building the site.</div>
+    <>
+      <div></div>
       <div>
-        Join our Discord server{" "}
-        <a
-          href="https://s.gesugao.net/discord"
-          target="_blank"
-          class={styles.DiscordLink}
-        >
-          here
-        </a>{" "}
-        for updates.
+        <img
+          src={`https://api.gesugao.net/now_playing/art?${encodeURIComponent(
+            getSong().text
+          )}`}
+          alt="Now Playing Art"
+          class={styles.NowPlayingArt}
+        />
+        <Presence exitBeforeEnter>
+          <Rerun on={getSong}>
+            <Motion
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { delay: 0.05 } }}
+              transition={{ duration: 0.1 }}
+              exit={{ opacity: 0 }}
+            >
+              <div>
+                <h1>{getSong().title}</h1>
+                <h3>{getSong().artist}</h3>
+              </div>
+            </Motion>
+          </Rerun>
+        </Presence>
       </div>
-      <br />
-      <br />
-      <br />
-      <div>Homepage</div>
-    </div>
+      <div></div>
+    </>
   );
 };
 

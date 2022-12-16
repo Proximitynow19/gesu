@@ -6,15 +6,32 @@ import styles from "./Player.module.css";
 import { TbPlayerPlay, TbPlayerStop } from "solid-icons/tb";
 import { FiVolumeX, FiVolume1, FiVolume2 } from "solid-icons/fi";
 import moment from "moment";
+import { Motion, Presence } from "@motionone/solid";
+import { Rerun } from "@solid-primitives/keyed";
 
 const [isPlaying, setPlaying] = createSignal(false);
 const [getVol, setVol] = createSignal(0.5);
-const [getSong, setSong] = createSignal({
+export const [getSong, setSong] = createSignal({
   title: "",
   artist: "",
   text: "",
   start: moment().toISOString(),
   end: moment().toISOString(),
+});
+export const [getImage, setImage] = createSignal(new Image());
+
+createEffect(() => {
+  let img = new Image();
+
+  img.alt = getSong().text;
+
+  img.onload = () => {
+    setImage(img);
+  };
+
+  img.src = `https://api.gesugao.net/now_playing/art?${encodeURIComponent(
+    getSong().text
+  )}`;
 });
 
 if ("mediaSession" in navigator) {
@@ -91,10 +108,21 @@ const Player: Component = () => {
         alt="Now Playing Art"
         class={styles.Art}
       />
-      <div class={styles.MetaContainer}>
-        <strong class={styles.MetaTitle}>{getSong().title}</strong>
-        <span class={styles.MetaArtist}>{getSong().artist}</span>
-      </div>
+      <Presence exitBeforeEnter>
+        <Rerun on={getSong}>
+          <Motion
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, transition: { delay: 0.05 } }}
+            transition={{ duration: 0.1 }}
+            exit={{ opacity: 0 }}
+          >
+            <div class={styles.MetaContainer}>
+              <strong class={styles.MetaTitle}>{getSong().title}</strong>
+              <span class={styles.MetaArtist}>{getSong().artist}</span>
+            </div>
+          </Motion>
+        </Rerun>
+      </Presence>
       <div onClick={() => setPlaying(!isPlaying())} class={styles.Toggle}>
         {isPlaying() ? <TbPlayerStop /> : <TbPlayerPlay />}
       </div>
