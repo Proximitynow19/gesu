@@ -1,8 +1,10 @@
 import type { Component } from "solid-js";
 
-import styles from "./Home.module.css";
+import styles from "./WIP.module.css";
 
-const Library: Component = () => {
+type WIPProps = { page_name: string };
+
+const WIP: Component<WIPProps> = (props: WIPProps) => {
   return (
     <div>
       <div>We're still building the site.</div>
@@ -20,9 +22,9 @@ const Library: Component = () => {
       <br />
       <br />
       <br />
-      <div>Library</div>
+      <div>{props.page_name}</div>
     </div>
   );
 };
 
-export default Library;
+export default WIP;

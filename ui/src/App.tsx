@@ -9,8 +9,7 @@ import styles from "./App.module.css";
 import Navbar from "./Navbar";
 import Player from "./Player";
 import Home from "./pages/Home";
-import Library from "./pages/Library";
-import Community from "./pages/Community";
+import WIP from "./pages/WIP";
 
 const App: Component = () => {
   return (
@@ -27,8 +26,14 @@ const App: Component = () => {
             <section class={styles.Page}>
               <Routes>
                 <Route path="/" element={<Home />}></Route>
-                <Route path="/library" element={<Library />}></Route>
-                <Route path="/community" element={<Community />}></Route>
+                <Route
+                  path="/library"
+                  element={<WIP page_name="Library" />}
+                ></Route>
+                <Route
+                  path="/community"
+                  element={<WIP page_name="Community" />}
+                ></Route>
               </Routes>
             </section>
           </Motion>
