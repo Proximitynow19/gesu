@@ -5,12 +5,14 @@ import styles from "./Player.module.css";
 
 import { TbPlayerPlay, TbPlayerStop } from "solid-icons/tb";
 import { FiVolumeX, FiVolume1, FiVolume2 } from "solid-icons/fi";
+import { ImSpinner2 } from "solid-icons/im";
 import moment from "moment";
 import { Motion, Presence } from "@motionone/solid";
 import { Rerun } from "@solid-primitives/keyed";
 
 const [isPlaying, setPlaying] = createSignal(false);
 const [getVol, setVol] = createSignal(0.5);
+const [isLoading, setLoading] = createSignal(false);
 export const [getSong, setSong] = createSignal({
   title: "",
   artist: "",
@@ -60,24 +62,32 @@ createRoot(() => {
   let audio: HTMLAudioElement | undefined;
 
   createEffect(async () => {
-    if (isPlaying()) {
-      if (!audio || audio.paused) {
-        audio = new Audio();
-        audio.src = `https://a.gesugao.net/?${Date.now()}`;
-        audio.volume = getVol();
-        audio.load();
-        await audio.play().catch(() => {
-          setPlaying(false);
-        });
-      }
-    } else {
-      if (audio && !audio.paused) {
-        audio.pause();
-      }
-    }
+    if (!audio || audio.paused == isPlaying()) {
+      setLoading(true);
 
-    if ("mediaSession" in navigator)
-      navigator.mediaSession.playbackState = isPlaying() ? "playing" : "paused";
+      if (isPlaying()) {
+        if (!audio || audio.paused) {
+          audio = new Audio();
+          audio.src = `https://a.gesugao.net/?${Date.now()}`;
+          audio.volume = getVol();
+          audio.load();
+          await audio.play().catch(() => {
+            setPlaying(false);
+          });
+        }
+      } else {
+        if (audio && !audio.paused) {
+          audio.pause();
+        }
+      }
+
+      if ("mediaSession" in navigator)
+        navigator.mediaSession.playbackState = isPlaying()
+          ? "playing"
+          : "paused";
+
+      setLoading(false);
+    }
 
     if (audio) audio.volume = getVol();
   });
@@ -108,8 +118,37 @@ const Player: Component = () => {
           </Motion>
         </Rerun>
       </Presence>
-      <div onClick={() => setPlaying(!isPlaying())} class={styles.Toggle}>
-        {isPlaying() ? <TbPlayerStop /> : <TbPlayerPlay />}
+      <div
+        onClick={() => isLoading() || setPlaying(!isPlaying())}
+        class={styles.Toggle}
+        data-loading={isLoading()}
+      >
+        {
+          <Presence exitBeforeEnter>
+            <Rerun on={isLoading}>
+              <Motion
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0, transition: { delay: 0.05 } }}
+                transition={{ duration: 0.1 }}
+                exit={{ opacity: 0, y: 5 }}
+              >
+                {isLoading() ? (
+                  <Motion
+                    initial={{ rotate: 0 }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 0.5, repeat: Infinity }}
+                  >
+                    <ImSpinner2 />
+                  </Motion>
+                ) : isPlaying() ? (
+                  <TbPlayerStop />
+                ) : (
+                  <TbPlayerPlay />
+                )}
+              </Motion>
+            </Rerun>
+          </Presence>
+        }
       </div>
       <div
         onClick={() => setVol((getVol() + 0.2) % 1)}

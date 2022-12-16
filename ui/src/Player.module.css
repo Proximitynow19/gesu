@@ -32,6 +32,11 @@
   line-height: 0;
 }
 
+.Toggle[data-loading="true"] {
+  opacity: 0.2;
+  cursor: not-allowed;
+}
+
 .Volume {
   cursor: pointer;
   position: absolute;
