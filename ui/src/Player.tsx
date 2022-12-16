@@ -18,21 +18,6 @@ export const [getSong, setSong] = createSignal({
   start: moment().toISOString(),
   end: moment().toISOString(),
 });
-export const [getImage, setImage] = createSignal(new Image());
-
-createEffect(() => {
-  let img = new Image();
-
-  img.alt = getSong().text;
-
-  img.onload = () => {
-    setImage(img);
-  };
-
-  img.src = `https://api.gesugao.net/now_playing/art?${encodeURIComponent(
-    getSong().text
-  )}`;
-});
 
 if ("mediaSession" in navigator) {
   navigator.mediaSession.setActionHandler("play", () => {
