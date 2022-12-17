@@ -9,6 +9,7 @@ import { ImSpinner2 } from "solid-icons/im";
 import moment from "moment";
 import { Motion, Presence } from "@motionone/solid";
 import { Rerun } from "@solid-primitives/keyed";
+// import Visualizer from "./Visualizer";
 
 const [isPlaying, setPlaying] = createSignal<boolean>(false);
 const [getVol, setVol] = createSignal<number>(0.5);
@@ -20,6 +21,7 @@ export const [getSong, setSong] = createSignal<NowPlaying>({
   start: moment(),
   end: moment(),
 });
+export const [getAudio, setAudio] = createSignal<HTMLAudioElement>(new Audio());
 
 export type NowPlaying = {
   title: string;
@@ -67,24 +69,24 @@ createRoot(() => {
     }
   });
 
-  let audio: HTMLAudioElement | undefined;
+  let audio = getAudio();
 
   createEffect(async () => {
-    if (!audio || audio.paused == isPlaying()) {
+    if (audio.paused == isPlaying()) {
       setLoading(true);
 
       if (isPlaying()) {
-        if (!audio || audio.paused) {
-          audio = new Audio();
+        if (audio.paused) {
           audio.src = `https://a.gesugao.net/?${Date.now()}`;
-          audio.volume = getVol();
+          audio.crossOrigin = "anonymous";
           audio.load();
           await audio.play().catch(() => {
             setPlaying(false);
           });
+          setAudio(audio);
         }
       } else {
-        if (audio && !audio.paused) {
+        if (!audio.paused) {
           audio.pause();
         }
       }
@@ -97,7 +99,7 @@ createRoot(() => {
       setLoading(false);
     }
 
-    if (audio) audio.volume = getVol();
+    audio.volume = getVol();
   });
 });
 
@@ -160,6 +162,7 @@ const Player: Component = () => {
           <FiVolumeX />
         )}
       </div>
+      {/* <Visualizer audio={getAudio} samples={8} /> */}
     </div>
   );
 };
