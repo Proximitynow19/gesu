@@ -1,4 +1,4 @@
-import { Component, createSignal } from "solid-js";
+import { Component } from "solid-js";
 
 import { Routes, Route, useIsRouting } from "@solidjs/router";
 
