@@ -19,7 +19,6 @@
     "@motionone/solid": "^10.15.3",
     "@solid-primitives/keyed": "^1.1.4",
     "@solidjs/router": "^0.5.1",
-    "d3": "^7.7.0",
     "moment": "^2.29.4",
     "react-icons": "^4.7.1",
     "socket.io-client": "^4.5.4",

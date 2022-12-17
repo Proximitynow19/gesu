@@ -38,7 +38,7 @@ const Visualizer: Component<VisualizerProps> = (props: VisualizerProps) => {
         analyser.getByteFrequencyData(data);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.lineWidth = 2;
-        ctx.strokeStyle = "#fff";
+        ctx.strokeStyle = "#ffffff";
         ctx.beginPath();
 
         const step = Math.ceil(data.length / (window.innerWidth / 50));
@@ -87,9 +87,19 @@ const Visualizer: Component<VisualizerProps> = (props: VisualizerProps) => {
               canvas.height - nextY
             );
           }
+
+          if (i / step >= Math.floor(data.length / step) - 1) {
+            ctx.lineTo(
+              (i + step) * (canvas.width / data.length),
+              canvas.height
+            );
+            ctx.lineTo(0, canvas.height);
+          }
         }
 
         ctx.stroke();
+
+        ctx.fill();
       };
 
       // Start the visualizer
@@ -97,7 +107,7 @@ const Visualizer: Component<VisualizerProps> = (props: VisualizerProps) => {
     }
   });
 
-  return <canvas ref={canvas} />;
+  return <canvas ref={canvas} class={styles.Canvas} />;
 };
 
 export default Visualizer;
