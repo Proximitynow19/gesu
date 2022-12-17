@@ -1,4 +1,4 @@
-import type { Component } from "solid-js";
+import { Component, createSignal } from "solid-js";
 
 import { Routes, Route, useIsRouting } from "@solidjs/router";
 
@@ -7,9 +7,10 @@ import { Rerun } from "@solid-primitives/keyed";
 
 import styles from "./App.module.css";
 import Navbar from "./Navbar";
-import Player from "./Player";
+import Player, { getAudio } from "./Player";
 import Home from "./pages/Home";
 import WIP from "./pages/WIP";
+import Visualizer from "./Visualizer";
 
 const App: Component = () => {
   return (
@@ -39,6 +40,9 @@ const App: Component = () => {
           </Motion>
         </Rerun>
       </Presence>
+      <div class={styles.Visualizer}>
+        <Visualizer audio={getAudio} />
+      </div>
       <div class={styles.Player}>
         <Player />
       </div>

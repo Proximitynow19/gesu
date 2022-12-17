@@ -9,7 +9,6 @@ import { ImSpinner2 } from "solid-icons/im";
 import moment from "moment";
 import { Motion, Presence } from "@motionone/solid";
 import { Rerun } from "@solid-primitives/keyed";
-// import Visualizer from "./Visualizer";
 
 const [isPlaying, setPlaying] = createSignal<boolean>(false);
 const [getVol, setVol] = createSignal<number>(0.5);
@@ -44,7 +43,7 @@ if ("mediaSession" in navigator) {
 }
 
 createRoot(() => {
-  const socket = io("https://api.gesugao.net/");
+  const socket = io(":8001");
 
   socket.on("now_playing", (data) => {
     setSong(data);
@@ -72,33 +71,32 @@ createRoot(() => {
   let audio = getAudio();
 
   createEffect(async () => {
-    if (audio.paused == isPlaying()) {
-      setLoading(true);
+    if (audio.paused != isPlaying()) return;
+    setLoading(true);
 
-      if (isPlaying()) {
-        if (audio.paused) {
-          audio.src = `https://a.gesugao.net/?${Date.now()}`;
-          audio.crossOrigin = "anonymous";
-          audio.load();
-          await audio.play().catch(() => {
-            setPlaying(false);
-          });
-          setAudio(audio);
-        }
-      } else {
-        if (!audio.paused) {
-          audio.pause();
-        }
+    if (isPlaying()) {
+      if (audio.paused) {
+        audio.src = `https://a.gesugao.net/?${Date.now()}`;
+        audio.crossOrigin = "anonymous";
+        audio.load();
+        await audio.play().catch(() => {
+          setPlaying(false);
+        });
+        setAudio(audio);
       }
-
-      if ("mediaSession" in navigator)
-        navigator.mediaSession.playbackState = isPlaying()
-          ? "playing"
-          : "paused";
-
-      setLoading(false);
+    } else {
+      if (!audio.paused) {
+        audio.pause();
+      }
     }
 
+    if ("mediaSession" in navigator)
+      navigator.mediaSession.playbackState = isPlaying() ? "playing" : "paused";
+
+    setLoading(false);
+  });
+
+  createEffect(() => {
     audio.volume = getVol();
   });
 });
@@ -162,7 +160,6 @@ const Player: Component = () => {
           <FiVolumeX />
         )}
       </div>
-      {/* <Visualizer audio={getAudio} samples={8} /> */}
     </div>
   );
 };

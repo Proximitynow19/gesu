@@ -6,7 +6,7 @@
 }
 
 .Player {
-  position: fixed;
+  position: absolute;
   bottom: min(5vw, 100px);
   width: calc(100vw - min(5vw, 100px) * 2);
 }
@@ -14,4 +14,11 @@
 .Page {
   text-align: center;
   padding: 1.04em;
+}
+
+.Visualizer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  opacity: 0.2;
 }
