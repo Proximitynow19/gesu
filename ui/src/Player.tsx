@@ -46,7 +46,11 @@ createRoot(() => {
   const socket = io("https://api.gesugao.net/");
 
   socket.on("now_playing", (data) => {
-    setSong(data);
+    let parseData = data;
+    parseData.start = moment(data.start);
+    parseData.end = moment(data.end);
+
+    setSong(parseData);
 
     if ("mediaSession" in navigator) {
       navigator.mediaSession.metadata = new MediaMetadata({

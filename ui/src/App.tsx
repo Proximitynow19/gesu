@@ -15,6 +15,9 @@ import Visualizer from "./Visualizer";
 const App: Component = () => {
   return (
     <main class={styles.App}>
+      <div class={styles.Visualizer}>
+        <Visualizer audio={getAudio} />
+      </div>
       <Navbar />{" "}
       <Presence exitBeforeEnter>
         <Rerun on={useIsRouting()}>
@@ -40,9 +43,6 @@ const App: Component = () => {
           </Motion>
         </Rerun>
       </Presence>
-      <div class={styles.Visualizer}>
-        <Visualizer audio={getAudio} />
-      </div>
       <div class={styles.Player}>
         <Player />
       </div>
